@@ -1,0 +1,130 @@
+<div class="container-fluid px-4">
+    <h1 class="mt-4" style="margin-left: 12px;">Médicos</h1>
+    <ol class="breadcrumb mb-4" style="margin-left: 12px;">
+        <li class="breadcrumb-item active">Gestão de Médicos</li>
+    </ol>
+    <div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-6">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <img src="https://cdn-icons-png.flaticon.com/128/3394/3394625.png" style="max-width: 17px;" alt="">
+                            Cadastrar
+                        </div>
+                        <div class="container-fluid px-4">
+                            <br>
+                            <p>Novo médico </p>
+                            <p class="mb-3">Nome:</p>
+                            <input type="text" class="form-control mb-3" id="nomeInput">
+                            <p class="mb-3">CRM:</p>
+                            <input type="text" class="form-control mb-3" id="crmInput">
+                            <p class="mb-3">UF CRM:</p>
+                            <input type="text" class="form-control mb-3" id="ufCrmInput">
+                            <p class="mb-3">Especialidade:</p>
+                            <input type="text" class="form-control mb-3" id="especialidadeInput">
+                            <p><a class="btn btn-primary btn-sm" style="margin-right: 1vh;" (click)="cadastrarMedico()">
+                                    Cadastrar
+                                </a><span style="color: red;">{{ messageCreate }}</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6" >
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <img src="https://cdn-icons-png.flaticon.com/512/6269/6269505.png" style="max-width: 17px;" alt="">
+                            Editar
+                        </div>
+                        <div class="container-fluid px-4">
+                            <br>
+                            <p>Editar pelo Id: {{ selectedMedico }}</p>
+                            <p class="mb-3">Nome:</p>
+                            <input type="text" class="form-control mb-3" id="editNome">
+                            <p class="mb-3">CRM:</p>
+                            <input type="text" class="form-control mb-3" id="editCrm">
+                            <p class="mb-3">UF CRM:</p>
+                            <input type="text" class="form-control mb-3" id="editUfCrm">
+                            <p class="mb-3">Especialidade:</p>
+                            <input type="text" class="form-control mb-3" id="editEspecialidade">
+                            <p><a class="btn btn-primary btn-sm" style="margin-right: 1vh;" (click)="updateMedico()">
+                                    Editar
+                                </a><span style="color: red;">{{ messageEdit }}</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                    </div>
+                    <div class="col-8 col-sm-6">
+                        <p style="padding-top: 3px; font-size: smaller; margin-right: 1vh; margin-bottom: -2px;">
+                            <strong>Filtrar por:</strong>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-4" style="padding-left: 0px;">
+                        <a class="btn btn-primary btn-sm" style="margin-right: 1vh;" (click)="fetchMedicos()">Listar
+                            médicos</a>
+                    </div>
+                    <div class="col-8">
+                        <div class="input-group input-group-sm mb-3" style="width: 500px;">
+                            <span class="input-group-text" id="basic-addon1">UF</span>
+                            <input type="text" class="form-control" id="ufInput" [(ngModel)]="ufFilter"
+                                style="margin-right: 1vh; max-width: 45px;" aria-label="UF"
+                                aria-describedby="basic-addon1">
+                            <span class="input-group-text" id="basic-addon1">Nome</span>
+                            <input type="text" class="form-control" id="nomeInputFilter" [(ngModel)]="nomeFilter"
+                                placeholder="Digite o Nome" aria-label="Nome" aria-describedby="basic-addon1"
+                                style="margin-right: 1vh;">
+                            <a class="btn btn-primary btn-sm" style="margin-right: 7px;" (click)="fetchMedicos(nomeFilter, ufFilter)">Atualizar</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-4" style="margin-left: 12px; margin-right: 12px;">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                Tabela de médicos
+            </div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Nome</th>
+                            <th scope="col">CRM</th>
+                            <th scope="col">UF</th>
+                            <th scope="col">Especialidade</th>
+                            <th scope="col">Deletar</th>
+                            <th scope="col">Editar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let medico of medicos">
+                            <th scope="row">{{ medico.id }}</th>
+                            <td>{{ medico.nome }}</td>
+                            <td>{{ medico.crm }}</td>
+                            <td>{{ medico.ufCrm }}</td>
+                            <td>{{ medico.especialidade }}</td>
+                            <td>
+                                <a (click)="deleteMedico(medico.id)" style="cursor: pointer;">
+                                    <img src="https://cdn-icons-png.flaticon.com/128/6711/6711573.png" style="max-width: 38px;" alt="Deletar">
+                                </a>
+                            </td>
+                            <td>
+                                <a (click)="selectMedico(medico.id, medico.crm, medico.nome, medico.ufCrm, medico.especialidade)" style="cursor: pointer;">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/6841/6841733.png" style="max-width: 38px;" alt="Editar">
+                                </a>
+                            </td>
+                            
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>

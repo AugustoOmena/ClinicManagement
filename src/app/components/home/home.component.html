@@ -1,0 +1,53 @@
+<nav *ngIf="IsLoggedIn()" class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+    <a class="navbar-brand ps-3" href="index.html">EstudosFrontend</a>
+    <!-- Sidebar Toggle-->
+    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+            class="fas fa-bars"></i></button>
+</nav>
+<div *ngIf="IsLoggedIn()" id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+            <div class="sb-sidenav-menu">
+                <div class="nav">
+                    <div class="sb-sidenav-menu-heading">Gestão</div>
+                    <a (click)="mostrarComponente('medicos')" class="nav-link">
+                        <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                        Médicos
+                    </a>
+                    <a (click)="mostrarComponente('pacientes')" class="nav-link">
+                        <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                        Pacientes
+                    </a>
+                </div>
+            </div>
+            <div class="sb-sidenav-footer">
+            </div>
+        </nav>
+    </div>
+    <div id="layoutSidenav_content">
+        <main>
+            <app-medicos *ngIf="componenteAtivo === 'medicos'"></app-medicos>
+            <!-- <app-pacientes *ngIf="componenteAtivo === 'pacientes'"></app-pacientes> -->
+        </main>
+        <footer class="py-4 bg-light mt-auto">
+            <div class="container-fluid px-4">
+                <div class="d-flex align-items-center justify-content-between small">
+                    <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                    <div>
+                        <a href="#">Privacy Policy</a>
+                        &middot;
+                        <a href="#">Terms &amp; Conditions</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+
+<div *ngIf="errorVisible" class="container" style="text-align: center; margin-top: 10vh;">
+    <div>
+        <h1>Opa, Erro de Permissão</h1>
+        <p>Por favor, volte e realize o login para acessar essa área</p>
+        <a routerLink="/login" class="btn btn-danger">Login</a>
+    </div>
+</div>
