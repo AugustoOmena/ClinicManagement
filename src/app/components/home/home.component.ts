@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
   errorVisible: boolean = false;
   medico: boolean = true;
   paciente: boolean = false;
-  componenteAtivo: string = '';
+  componenteAtivo: string = 'medicos';
 
   constructor(
     private router: Router,

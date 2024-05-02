@@ -9,87 +9,108 @@
                 <div class="col-xl-6">
                     <div class="card mb-4">
                         <div class="card-header">
-                            <img src="https://cdn-icons-png.flaticon.com/128/3394/3394625.png" style="max-width: 17px;" alt="">
+                            <img src="assets/images/icons/addPeople.png" style="max-width: 17px;" alt="">
                             Cadastrar
                         </div>
                         <div class="container-fluid px-4">
                             <br>
                             <p>Novo médico </p>
-                            <p class="mb-3">Nome:</p>
-                            <input type="text" class="form-control mb-3" id="nomeInput">
-                            <p class="mb-3">CRM:</p>
-                            <input type="text" class="form-control mb-3" id="crmInput">
-                            <p class="mb-3">UF CRM:</p>
-                            <input type="text" class="form-control mb-3" id="ufCrmInput">
-                            <p class="mb-3">Especialidade:</p>
-                            <input type="text" class="form-control mb-3" id="especialidadeInput">
-                            <p><a class="btn btn-primary btn-sm" style="margin-right: 1vh;" (click)="cadastrarMedico()">
-                                    Cadastrar
-                                </a><span style="color: red;">{{ messageCreate }}</span></p>
+                            <div class="form-floating mb-3">
+                                <input class="form-control custom-input" maxlength="255"
+                                placeholder="Nome" name="Nome" id="nomeInput"/>
+                                <label for="inputPassword">Nome</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input class="form-control custom-input"
+                                placeholder="Crm" name="Crm"  id="crmInput"/>
+                                <label for="inputCrm">CRM</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input class="form-control custom-input" maxlength="2" inputmode="uppercase"
+                                placeholder="UF" name="UF" id="ufCrmInput"/>
+                                <label for="inputUfCrm">UF</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input class="form-control custom-input" maxlength="255"
+                                placeholder="Especialidade" name="Especialidade" id="especialidadeInput"/>
+                                <label for="inputEspecialidade">Especialidade</label>
+                            </div>
+                            <p>
+                                <a class="btn btn-primary btn-sm" style="margin-right: 1vh;" (click)="cadastrarMedico()">
+                                    Cadastrar</a><span style="color: red;">{{ messageCreate }}</span></p>
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-6" >
+                <div class="col-xl-6">
                     <div class="card mb-4">
                         <div class="card-header">
-                            <img src="https://cdn-icons-png.flaticon.com/512/6269/6269505.png" style="max-width: 17px;" alt="">
+                            <img src="assets/images/icons/Edit.png" style="max-width: 17px;" alt="">
                             Editar
                         </div>
                         <div class="container-fluid px-4">
                             <br>
                             <p>Editar pelo Id: {{ selectedMedico }}</p>
-                            <p class="mb-3">Nome:</p>
-                            <input type="text" class="form-control mb-3" id="editNome">
-                            <p class="mb-3">CRM:</p>
-                            <input type="text" class="form-control mb-3" id="editCrm">
-                            <p class="mb-3">UF CRM:</p>
-                            <input type="text" class="form-control mb-3" id="editUfCrm">
-                            <p class="mb-3">Especialidade:</p>
-                            <input type="text" class="form-control mb-3" id="editEspecialidade">
+                            <div class="form-floating mb-3">
+                                <input class="form-control custom-input"
+                                placeholder="Nome" name="Nome" id="editNome"/>
+                                <label for="inputPassword">Nome</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input class="form-control custom-input"
+                                placeholder="Crm" name="Crm" id="editCrm"/>
+                                <label for="inputCrm">CRM</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input class="form-control custom-input" 
+                                placeholder="UF" name="UF" id="editUfCrm"/>
+                                <label for="inputUfCrm">UF</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input class="form-control custom-input" 
+                                placeholder="Especialidade" name="Especialidade" id="editEspecialidade"/>
+                                <label for="inputEspecialidade">Especialidade</label>
+                            </div>
                             <p><a class="btn btn-primary btn-sm" style="margin-right: 1vh;" (click)="updateMedico()">
                                     Editar
                                 </a><span style="color: red;">{{ messageEdit }}</span></p>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="card mb-4" style="margin-left: 12px; margin-right: 12px;">
+            <div class="card-header" style="padding-bottom: 0px;">
+                <i class="fas fa-table me-1"></i>
+                Tabela de médicos
                 <div class="row">
                     <div class="col-4">
                     </div>
                     <div class="col-8 col-sm-6">
-                        <p style="padding-top: 3px; font-size: smaller; margin-right: 1vh; margin-bottom: -2px;">
+                        <p style="padding-top: 3px; font-size: smaller; margin-left: 1vh; margin-bottom: -2px;">
                             <strong>Filtrar por:</strong>
                         </p>
                     </div>
                 </div>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-4" style="padding-left: 0px;">
-                        <a class="btn btn-primary btn-sm" style="margin-right: 1vh;" (click)="fetchMedicos()">Listar
-                            médicos</a>
-                    </div>
-                    <div class="col-8">
-                        <div class="input-group input-group-sm mb-3" style="width: 500px;">
-                            <span class="input-group-text" id="basic-addon1">UF</span>
-                            <input type="text" class="form-control" id="ufInput" [(ngModel)]="ufFilter"
-                                style="margin-right: 1vh; max-width: 45px;" aria-label="UF"
-                                aria-describedby="basic-addon1">
-                            <span class="input-group-text" id="basic-addon1">Nome</span>
-                            <input type="text" class="form-control" id="nomeInputFilter" [(ngModel)]="nomeFilter"
-                                placeholder="Digite o Nome" aria-label="Nome" aria-describedby="basic-addon1"
-                                style="margin-right: 1vh;">
-                            <a class="btn btn-primary btn-sm" style="margin-right: 7px;" (click)="fetchMedicos(nomeFilter, ufFilter)">Atualizar</a>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-4" style="padding-left: 0px;">
+                            <a class="btn btn-primary btn-sm" style="margin-right: 1vh;" (click)="fetchMedicos(nomeFilter, ufFilter)">Listar
+                                ou atualizar médicos</a>
+                        </div>
+                        <div class="col-8">
+                            <div class="input-group input-group-sm mb-3" style="width: 400px;">
+                                <span class="input-group-text" id="basic-addon1">UF</span>
+                                <input type="text" class="form-control" id="ufInput" [(ngModel)]="ufFilter"
+                                    style="margin-right: 1vh; max-width: 45px;" aria-label="UF"
+                                    aria-describedby="basic-addon1">
+                                <span class="input-group-text" id="basic-addon1">Nome</span>
+                                <input type="text" class="form-control" id="nomeInputFilter" [(ngModel)]="nomeFilter"
+                                    placeholder="Digite o Nome" aria-label="Nome" aria-describedby="basic-addon1"
+                                    style="margin-right: 1vh;">
+                            </div>
                         </div>
                     </div>
-
                 </div>
-            </div>
-        </div>
-
-        <div class="card mb-4" style="margin-left: 12px; margin-right: 12px;">
-            <div class="card-header">
-                <i class="fas fa-table me-1"></i>
-                Tabela de médicos
             </div>
             <div class="card-body">
                 <table class="table table-hover">
@@ -100,8 +121,7 @@
                             <th scope="col">CRM</th>
                             <th scope="col">UF</th>
                             <th scope="col">Especialidade</th>
-                            <th scope="col">Deletar</th>
-                            <th scope="col">Editar</th>
+                            <th scope="col" colspan="2"> Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -113,15 +133,15 @@
                             <td>{{ medico.especialidade }}</td>
                             <td>
                                 <a (click)="deleteMedico(medico.id)" style="cursor: pointer;">
-                                    <img src="https://cdn-icons-png.flaticon.com/128/6711/6711573.png" style="max-width: 38px;" alt="Deletar">
+                                    <img src="assets/images/icons/trash.png" style="max-width: 38px;" alt="Deletar">
                                 </a>
                             </td>
                             <td>
-                                <a (click)="selectMedico(medico.id, medico.crm, medico.nome, medico.ufCrm, medico.especialidade)" style="cursor: pointer;">
-                                    <img src="https://cdn-icons-png.flaticon.com/512/6841/6841733.png" style="max-width: 38px;" alt="Editar">
+                                <a (click)="selectToEditMedico(medico.id, medico.crm, medico.nome, medico.ufCrm, medico.especialidade)"
+                                    style="cursor: pointer;">
+                                    <img src="assets/images/icons/pencil.png" style="max-width: 38px;" alt="Editar">
                                 </a>
                             </td>
-                            
                         </tr>
                     </tbody>
                 </table>

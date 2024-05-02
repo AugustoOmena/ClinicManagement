@@ -35,6 +35,9 @@
                                                 alt="Ícone de visibilidade">
                                         </button>
                                     </div>
+                                    <div *ngIf="loading" style="display: flex; justify-content: center;">
+                                        <img style="max-width: 28px;" src="assets/images/icons/girador.gif" alt="">
+                                    </div>
                                     <div style="display: flex; justify-content: center;">
                                         <p>{{ loginError }}</p>
                                     </div>

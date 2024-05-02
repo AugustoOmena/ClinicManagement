@@ -32,21 +32,17 @@ export class MedicosComponent implements OnInit {
       }
     }
   
-    // Obtém o token de acesso do localStorage
     const token = localStorage.getItem('access_token');
   
-    // Verifica se o token está disponível
     if (!token) {
       console.error('Token de acesso não encontrado');
       return;
     }
   
-    // Define o cabeçalho de autorização com o token
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
   
-    // Faz a solicitação GET usando HttpClient com o cabeçalho de autorização
     this.http.get(url, { headers }).subscribe(
       (response: any) => {
         this.medicos = response;
@@ -71,7 +67,7 @@ export class MedicosComponent implements OnInit {
         this.fetchMedicos();
       },
       (error) => {
-        console.error('Erro ao deletar médico:', error);
+        //console.error('Erro ao deletar médico:', error);
       }
     );
   }
@@ -133,7 +129,7 @@ export class MedicosComponent implements OnInit {
     );
   }
 
-selectMedico(medicoId: string, medicoCrm: string, medicoNome: string, medicoUfCrm: string, medicoEspecialidade: string) {
+selectToEditMedico(medicoId: string, medicoCrm: string, medicoNome: string, medicoUfCrm: string, medicoEspecialidade: string) {
 this.selectedMedico = medicoId;
 
   (document.getElementById('editNome') as HTMLInputElement).value = medicoNome;

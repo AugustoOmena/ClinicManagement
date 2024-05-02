@@ -18,6 +18,7 @@ export class LoginComponent {
   errorMessagepass = '';
   loginError = '';
   hide = true;
+  loading: boolean = false;
 
   constructor(
     private router: Router,
@@ -25,6 +26,7 @@ export class LoginComponent {
   ) {}
 
   confirmarLogin(): void {
+    this.loginError = '';
     const usuario = {
       email: this.email,
       senha: this.senha
@@ -36,6 +38,7 @@ export class LoginComponent {
   }
 
   fazerLogin(): void {
+    this.loading = true;
     const usuario = {
       email: this.email,
       senha: this.senha
@@ -58,16 +61,24 @@ export class LoginComponent {
             (error) => {
               this.usuarioAutenticado = false;
               this.loginError = 'Erro de conexão';
+              this.loading = false;
             }
           );
         } else {
           this.usuarioAutenticado = false;
           this.loginError = 'Email ou senha inválidos';
+          this.loading = false;
+
         }
       },
       (error) => {
-        this.loginError = 'Erro de conexão';
+        if (error.error == 'E-mail e/ou senha inválido(s).'){
+          this.loginError = 'E-mail e/ou senha inválido(s).';
+        } else {
+          this.loginError = 'Erro de conexão'
+        }
         this.usuarioAutenticado = false;
+        this.loading = false;
       }
     );
   }
