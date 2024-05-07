@@ -65,7 +65,7 @@ export class PacientesComponent implements OnInit {
         return;
       }
 
-      const token = localStorage.getItem('access_token');
+      const token = localStorage.getItem('accessToken');
       if (!token) {
           console.error('Token de acesso não encontrado');
           return;
@@ -106,7 +106,7 @@ export class PacientesComponent implements OnInit {
 
   fetchPacientes(): void {
     let url = 'https://localhost:7021/api/Pacientes';
-    const token = localStorage.getItem('access_token');
+    const token = localStorage.getItem('accessToken');
   
     if (!token) {
       console.error('Token de acesso não encontrado');
@@ -128,7 +128,7 @@ export class PacientesComponent implements OnInit {
   }
 
   deletePaciente(idPaciente: string): void {
-    const token = localStorage.getItem('access_token')!;
+    const token = localStorage.getItem('accessToken')!;
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`

@@ -8,9 +8,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
-import { LoginComponent } from './components/login/login.component';
 import { MedicosComponent } from './components/medicos/medicos.component';
 import { PacientesComponent } from './components/pacientes/pacientes.component';
+import { LoginComponent } from './security/login/login.component';
+import { LoginService } from './security/login/login.service';
+import { InputComponent } from './shared/input/input.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,7 @@ import { PacientesComponent } from './components/pacientes/pacientes.component';
     HomeComponent,
     MedicosComponent,
     PacientesComponent,
+    InputComponent,
   ],
   imports: [
     BrowserModule,
@@ -30,7 +33,9 @@ import { PacientesComponent } from './components/pacientes/pacientes.component';
     HttpClientModule,
     MatIconModule,
   ],
-  providers: [],
+  providers: [
+    LoginService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

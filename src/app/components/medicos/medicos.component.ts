@@ -7,6 +7,7 @@ import { Component, OnInit, inject } from '@angular/core';
   styleUrl: './medicos.component.css'
 })
 export class MedicosComponent implements OnInit {
+
   title = 'Estudos.Augusto.Front';
   httpClient = inject(HttpClient);
   medicos:any[] = [];
@@ -17,6 +18,10 @@ export class MedicosComponent implements OnInit {
   ufFilter: string = '';
 
   constructor(private http: HttpClient) {}
+
+  
+  ngOnInit(): void {
+  }
   
   fetchMedicos(nome?: string, uf?: string): void {
     let url = 'https://localhost:7021/v1/Medicos';
@@ -32,7 +37,7 @@ export class MedicosComponent implements OnInit {
       }
     }
   
-    const token = localStorage.getItem('access_token');
+    const token = localStorage.getItem('accessToken');
   
     if (!token) {
       console.error('Token de acesso não encontrado');
@@ -56,7 +61,7 @@ export class MedicosComponent implements OnInit {
   
 
   deleteMedico(idMedico: string): void {
-    const token = localStorage.getItem('access_token')!;
+    const token = localStorage.getItem('accessToken')!;
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
@@ -111,7 +116,7 @@ export class MedicosComponent implements OnInit {
       especialidade: especialidade
     };
   
-    const token = localStorage.getItem('access_token')!;
+    const token = localStorage.getItem('accessToken')!;
   
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
@@ -165,7 +170,7 @@ cadastrarMedico(): void {
     return;
   }
 
-  const token = localStorage.getItem('access_token')!;
+  const token = localStorage.getItem('accessToken')!;
   const headers = new HttpHeaders({
     'Authorization': `Bearer ${token}`
   });
@@ -196,8 +201,4 @@ clearInputs(): void {
   (document.getElementById('ufCrmInput') as HTMLInputElement).value = '';
   (document.getElementById('especialidadeInput') as HTMLInputElement).value = '';
 }
-
-
-  ngOnInit(): void {
-  }
 }

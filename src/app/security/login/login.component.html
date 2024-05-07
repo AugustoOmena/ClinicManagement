@@ -1,0 +1,87 @@
+<div id="layoutAuthentication">
+    <div id="layoutAuthentication_content">
+        <main>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-5">
+                        <div class="card shadow-lg border-0 rounded-lg mt-5">
+                            <div class="card-header">
+                                <h3 class="text-center font-weight-light my-4">Login</h3>
+                            </div>
+                            <div class="card-body">
+                                <form [formGroup]="loginForm">
+                                    <div class="form-floating mb-3">
+                                        <mt-input-container [showTip]="false">
+                                            <input type="text" formControlName="email" class="form-control" placeholder="Email"
+                                                [ngClass]="{'is-invalid': loginForm.get('email')?.invalid && loginForm.get('email')?.touched}">
+                                            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                                        </mt-input-container>
+                                        <br>
+                                        <mt-input-container [showTip]="false">
+                                            <input type="password" formControlName="password" class="form-control" placeholder="Password"
+                                                [ngClass]="{'is-invalid': loginForm.get('password')?.invalid && loginForm.get('password')?.touched}">
+                                            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                                        </mt-input-container>
+                                    </div>
+                                    <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+                                    <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+                                    <div style="display: flex; justify-content: center;">
+                                        <button (click)="login()" [disabled]="loginForm.invalid" class="btn btn-primary">Login</button>
+                                    </div>
+                                </form>
+                                
+
+                                <!-- <input class="form-control" id="inputEmail" type="email" required
+                                            placeholder="nome@exemplo.com" formControlName="email" />
+                                        <label for="inputEmail">Endereço de Email</label>
+                                        <mat-error *ngIf="loginForm.get('email')?.errors?.['required']">Email é obrigatório</mat-error>
+                                        <mat-error *ngIf="loginForm.get('email')?.errors?.['email']">Email inválido</mat-error>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Login</button> -->
+
+
+                                <!-- <form [formGroup]="loginForm">
+                                    <div class="form-floating mb-3">
+                                        <input class="form-control" id="inputEmail" type="email" required
+                                            placeholder="nome@exemplo.com" name="email" />
+                                        <label for="inputEmail">Endereço de Email</label>
+                                        <p>erroMEssage</p>
+                                    </div>
+                                    <div>
+                                         <div class="form-floating mb-3">
+                                            <input (blur)="updateErrorMessagepass()" class="form-control custom-input"
+                                                id="inputPassword" type="password " matInput
+                                                [type]="hide ? 'password' : 'text'" placeholder="Senha"
+                                                [(ngModel)]="senha" name="senha" />
+                                            <label for="inputPassword">Senha</label>
+                                            <mat-error>{{ errorMessagepass }}</mat-error>
+                                        </div> 
+                                         <button style="background: none; border: none;"
+                                            mat-icon-button matSuffix (click)="hide = !hide"
+                                            [attr.aria-label]="hide ? 'Show password' : 'Hide password'"
+                                            [attr.aria-pressed]="hide">
+                                            <img style="max-width: 20px;"
+                                                src="{{ hide ? 'https://cdn-icons-png.flaticon.com/128/7794/7794218.png' : 'https://cdn-icons-png.flaticon.com/128/64/64943.png' }}"
+                                                alt="Ícone de visibilidade">
+                                        </button> 
+                                    </div>
+                                     <div *ngIf="loading" style="display: flex; justify-content: center;">
+                                        <img style="max-width: 28px;" src="assets/images/icons/girador.gif" alt="">
+                                    </div> 
+                                     <div style="display: flex; justify-content: center;">
+                                        <p>{{ loginError }}</p>
+                                    </div>
+                                    <div style="display: flex; justify-content: center;">
+                                        <a class="btn btn-primary" (click)="confirmarLogin()">Login</a>
+                                    </div> 
+                                </form> -->
+                            </div>
+                            <div class="card-footer text-center py-3">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>

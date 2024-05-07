@@ -1,10 +1,10 @@
-<nav *ngIf="IsLoggedIn()" class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
     <a class="navbar-brand ps-3" href="index.html">EstudosFrontend</a>
     <!-- Sidebar Toggle-->
     <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
             class="fas fa-bars"></i></button>
 </nav>
-<div *ngIf="IsLoggedIn()" id="layoutSidenav">
+<div id="layoutSidenav">
     <div id="layoutSidenav_nav">
         <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
             <div class="sb-sidenav-menu">
@@ -41,13 +41,5 @@
                 </div>
             </div>
         </footer>
-    </div>
-</div>
-
-<div *ngIf="errorVisible" class="container" style="text-align: center; margin-top: 10vh;">
-    <div>
-        <h1>Opa, Erro de Permissão</h1>
-        <p>Por favor, volte e realize o login para acessar essa área</p>
-        <a routerLink="/login" class="btn btn-danger">Login</a>
     </div>
 </div>
