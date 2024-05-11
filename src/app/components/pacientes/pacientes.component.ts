@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-pacientes',
@@ -9,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 export class PacientesComponent implements OnInit {
   title = 'Estudos.Augusto.Front';
   pacientes: any[] = [];
-  selectedPaciente:any;
+  selectedPacienteId:any;
 
   messageCreate: string = '';
   nomeInput: string = '';
@@ -29,9 +30,30 @@ export class PacientesComponent implements OnInit {
   telefoneUpdate: string = '';
   medicoUpdate: string = '';
 
-  constructor(private http: HttpClient) {}
+  actionSelected: string = '';
 
-  ngOnInit(): void {}
+  constructor(private http: HttpClient,
+              private fb: FormBuilder) {}
+
+    AcaoPacienteForm!: FormGroup
+
+  ngOnInit(): void {
+    this.registerPacienteReset()
+  }
+
+  registerPacienteReset() {
+    this.AcaoPacienteForm = this.fb.group({
+      name: this.fb.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
+      cpf: this.fb.control('', [Validators.required, Validators.maxLength(11)]),
+      telefone: this.fb.control('', [Validators.required, Validators.maxLength(20)]),
+      medicoid: this.fb.control('', [Validators.required]),
+    });
+  }
+
+  selectCreate() {
+    this.actionSelected = 'create';
+  }
+
 
   registerPaciente() {
       const pacienteData = {
@@ -144,12 +166,19 @@ export class PacientesComponent implements OnInit {
     );
   }
 
-  selectToEditPaciente(pacienteId: string, pacienteNome: string, pacienteCpf: string, pacienteTelefone: string) {
-  this.selectedPaciente = pacienteId;
+  selectToEditPaciente(pacienteId: string, pacienteNome: string, pacienteCpf: string, pacienteTelefone: string, idDoMedicoDoPaciente: string) {
+  this.selectedPacienteId = pacienteId;
+  this.actionSelected = 'edit';
 
-  this.nomeEdit = pacienteNome;
-  this.cpfEdit = pacienteCpf;
-  this.telefoneEdit = pacienteTelefone;
+  this.AcaoPacienteForm = this.fb.group({
+    name: this.fb.control(`${pacienteNome}`, [Validators.required, Validators.maxLength(255)]),
+    cpf: this.fb.control(`${pacienteCpf}`, [Validators.required, Validators.maxLength(11)]),
+    telefone: this.fb.control(`${pacienteTelefone}`, [Validators.required, Validators.maxLength(20)]),
+    medicoid: this.fb.control(`${idDoMedicoDoPaciente}`, [Validators.required]),
+  });
+  // this.nomeEdit = pacienteNome;
+  // this.cpfEdit = pacienteCpf;
+  // this.telefoneEdit = pacienteTelefone;
 
   }
 
@@ -159,7 +188,7 @@ export class PacientesComponent implements OnInit {
     this.telefoneUpdate = this.telefoneEdit.replace(/\D/g, ''),
     this.medicoIdEdit = (document.getElementById('editMedicoDoPaciente') as HTMLInputElement).value;
 
-    if (!this.selectedPaciente) {
+    if (!this.selectedPacienteId) {
       this.messageEdit = 'Nenhum paciente selecionado para edição';
       return;
     }
@@ -203,7 +232,7 @@ export class PacientesComponent implements OnInit {
       medicoId: this.medicoIdEdit
     };
 
-    this.http.put(`https://localhost:7021/api/Pacientes/${this.selectedPaciente}`, payload, { headers }).subscribe(
+    this.http.put(`https://localhost:7021/api/Pacientes/${this.selectedPacienteId}`, payload, { headers }).subscribe(
       (response) => {
         this.messageEdit = 'Paciente atualizado com sucesso';
         this.nomeEdit = '';

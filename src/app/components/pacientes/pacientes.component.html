@@ -1,123 +1,311 @@
-<div class="container-fluid px-4">
-    <h1 class="mt-4" style="margin-left: 12px;">Pacientes</h1>
-    <ol class="breadcrumb mb-4" style="margin-left: 12px;">
-        <li class="breadcrumb-item active">Gestão de Pacientes</li>
-    </ol>
-    <div>
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-6">
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <img src="assets/images/icons/addPeople.png" style="max-width: 17px;" alt="">
-                            Cadastrar
+<mt-sidebar>
+    <main>
+        <div class="container-fluid px-4">
+            <h1 class="mt-4">Pacientes</h1>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item active">Gestão de Pacientes</li>
+            </ol>
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    Tabela de pacientes
+                    <div class="row">
+                        <div class="col-4">
                         </div>
-                        <div class="container-fluid px-4">
-                            <br>
-                            <p>Novo paciente </p>
-                            <div class="form-floating mb-3">
-                                <input class="form-control custom-input" placeholder="Nome" name="Nome" [(ngModel)]="nomeInput" />
-                                <label for="inputPassword">Nome</label>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input class="form-control custom-input" placeholder="CPF" name="Cpf" [(ngModel)]="cpfInput" (input)="onChangeCPF()" maxlength="14" />
-                                <label for="inputCpf">CPF</label>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input class="form-control custom-input" placeholder="Telefone" name="Telefone" [(ngModel)]="telefoneInput" (input)="onChangeTelefone()" maxlength="15" />
-                                <label for="inputTelefone">Telefone</label>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input class="form-control custom-input" placeholder="ID do Médico" name="MedicoId" [(ngModel)]="medicoIdInput" />
-                                <label for="inputMedicoId">ID do Médico</label>
-                            </div>
-                            <p>
-                                <a class="btn btn-primary btn-sm" style="margin-right: 1vh;" (click)="registerPaciente()">
-                                    Cadastrar
+                        <div class="col-8 col-sm-6">
+                        </div>
+                    </div>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-4" style="padding-left: 0px; margin-top: 2vh;">
+                                <a class="btn btn-primary btn-sm" style="margin-right: 1vh;" (click)="fetchPacientes()">
+                                    <img class="estyleMediumIcons" src="assets/images/icons/lista-de-itens.png">Listar
                                 </a>
-                                <span style="color: red;">{{ messageCreate }}</span>
-                            </p>
+                                <a class="btn btn-primary btn-sm" style="margin-right: 1vh;" data-bs-toggle="modal"
+                                    data-bs-target="#createMedicoModal" data-bs-toggle="modal" data-bs-target="#acaoPacienteModal">
+                                    <img class="estyleMediumIcons" src="assets/images/icons/botao-adicionar.png" (click)="registerPacienteReset(); selectCreate()">Criar
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-6">
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <img src="assets/images/icons/Edit.png" style="max-width: 17px;" alt="">
-                            Editar
-                        </div>
-                        <div class="container-fluid px-4">
-                            <br>
-                            <p>Editar pelo Id: </p>
-                            <div class="form-floating mb-3">
-                                <input class="form-control custom-input" placeholder="Nome" [(ngModel)]="nomeEdit"/>
-                                <label for="inputPassword">Nome</label>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input class="form-control custom-input" placeholder="CPF" [(ngModel)]="cpfEdit" (input)="onChangeCPF()" maxlength="14"/>
-                                <label for="inputCrm">CPF</label>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input class="form-control custom-input" placeholder="Telefone" [(ngModel)]="telefoneEdit" (input)="onChangeTelefone()" maxlength="15"/>
-                                <label for="inputUfCrm">Telefone</label>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input class="form-control custom-input" placeholder="Especialidade" [(ngModel)]="medicoIdEdit" id="editMedicoDoPaciente"/>
-                                <label for="inputEspecialidade">MedicoId</label>
-                            </div>
-                            <p><a class="btn btn-primary btn-sm" style="margin-right: 1vh;" (click)="updatePaciente()">
-                                    Editar
-                                </a><span style="color: red;">{{ messageEdit }}</span></p> 
-                        </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col">CPF</th>
+                                    <th scope="col">Telefone</th>
+                                    <th scope="col">Nome do médico</th>
+                                    <th scope="col" colspan="2"> Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let paciente of pacientes">
+                                    <th scope="row">{{ paciente.id }}</th>
+                                    <td>{{ paciente.nome }}</td>
+                                    <td>{{ paciente.cpf }}</td>
+                                    <td>{{ paciente.telefone }}</td>
+                                    <td>{{ paciente.medico }}</td>
+                                    <td>
+                                        <a (click)="deletePaciente(paciente.id)" style="cursor: pointer;">
+                                            <img src="assets/images/icons/trash.png" style="max-width: 38px;" alt="Deletar">
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a style="cursor: pointer;" data-bs-toggle="modal"
+                                            data-bs-target="#acaoPacienteModal"
+                                            (click)="selectToEditPaciente(paciente.id, paciente.nome, paciente.cpf, paciente.telefone, paciente.medico)">
+                                            <img src="assets/images/icons/pencil.png" style="max-width: 38px;" alt="Editar">
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="card mb-4" style="margin-left: 12px; margin-right: 12px;">
-            <div class="card-header">
-                <i class="fas fa-table me-1"></i>
-                Tabela de pacientes
-                <div class="container" style="padding-top: 10px;">
-                    <div class="row">
-                        <div class="col-4" style="padding-left: 0px;">
-                            <a class="btn btn-primary btn-sm" style="margin-right: 1vh;" (click)="fetchPacientes()">Listar
-                                pacientes</a>
+    </main>
+</mt-sidebar>
+
+<div class="modal fade" id="acaoPacienteModal" tabindex="-1" aria-labelledby="createMedicoModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    @if (actionSelected === 'create'){
+                    <h1 class="modal-title fs-5" id="createMedicoModalLabel">
+                        <img src="assets/images/icons/addPeople.png" class="estyleMediumIcons" alt="">Cadastrar
+                    </h1>
+                    }
+                    @else if (actionSelected === 'edit')
+                    {
+                    <h1 class="modal-title fs-5" id="editarMedicoModalLabel">
+                        <img src="assets/images/icons/Edit.png" class="estyleMediumIcons" alt="">Editar
+                    </h1>
+                    }
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid px-4">
+                        @if (actionSelected === 'create'){
+                        <p>Novo médico </p>
+                        } @else if (actionSelected === 'edit')
+                        {
+                        <p>Editar pelo Id: {{ messageCreate }}</p>
+                        }
+                        <form [formGroup]="AcaoPacienteForm">
+                            <mt-input-container [showTip]="false">
+                                <div class="form-floating mb-3">
+                                    <input class="form-control custom-input" formControlName="name" maxlength="255"
+                                        placeholder="Nome" name="Nome" id="nomeInput"
+                                        [ngClass]="{'is-invalid': AcaoPacienteForm.get('name')?.invalid && AcaoPacienteForm.get('name')?.touched}" />
+                                    <label for="inputName">Nome</label>
+                                </div>
+                            </mt-input-container>
+                            <mt-input-container [showTip]="false">
+                                <div class="form-floating mb-3">
+                                    <input class="form-control custom-input" formControlName="cpf" placeholder="Cpf"
+                                        name="Cpf" id="cpfInput"
+                                        [ngClass]="{'is-invalid': AcaoPacienteForm.get('cpf')?.invalid && AcaoPacienteForm.get('cpf')?.touched}" />
+                                    <label for="inputCpf">CPF</label>
+                                </div>
+                            </mt-input-container>
+                            <mt-input-container [showTip]="false">
+                                <div class="form-floating mb-3">
+                                    <input class="form-control custom-input" formControlName="telefone"
+                                        inputmode="uppercase" placeholder="telefone" name="telefone" id="ufCrmInput"
+                                        [ngClass]="{'is-invalid': AcaoPacienteForm.get('telefone')?.invalid && AcaoPacienteForm.get('telefone')?.touched}" />
+                                    <label for="inputTelefone">Telefone</label>
+                                </div>
+                            </mt-input-container>
+                            <mt-input-container [showTip]="false">
+                                <div class="form-floating mb-3">
+                                    <input class="form-control custom-input" formControlName="medicoid" maxlength="255"
+                                        placeholder="Medico" name="medico" id="medicoInput"
+                                        [ngClass]="{'is-invalid': AcaoPacienteForm.get('medicoId')?.invalid && AcaoPacienteForm.get('medicoId')?.touched}" />
+                                    <label for="inputMedico">Id do Médico</label>
+                                </div>
+                            </mt-input-container>
+                        </form>
+                        @if (actionSelected === 'create'){
+                        <div>
+                            <button class="btn btn-primary btn-sm" style="margin-right: 1vh;"
+                                [disabled]="AcaoPacienteForm.invalid"> Cadastrar
+                            </button><span style="color: red;">{{ messageCreate }}</span>
                         </div>
+                        }
+                        @else if (actionSelected === 'edit')
+                        {
+                        <div>
+                            <button class="btn btn-primary btn-sm" style="margin-right: 1vh;"
+                                [disabled]="AcaoPacienteForm.invalid">Editar
+                            </button><span style="color: red;">{{ messageEdit }}</span>
+                        </div>
+                        }
                     </div>
                 </div>
-            </div>
-            <div class="card-body">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Nome</th>
-                            <th scope="col">CPF</th>
-                            <th scope="col">Telefone</th>
-                            <th scope="col">Nome do médico</th>
-                            <th scope="col" colspan="2"> Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let paciente of pacientes">
-                            <th scope="row">{{ paciente.id }}</th>
-                            <td>{{ paciente.nome }}</td>
-                            <td>{{ paciente.cpf }}</td>
-                            <td>{{ paciente.telefone }}</td>
-                            <td>{{ paciente.medico }}</td>
-                            <td>
-                                <a (click)="deletePaciente(paciente.id)" style="cursor: pointer;">
-                                    <img src="assets/images/icons/trash.png" style="max-width: 38px;" alt="Deletar">
-                                </a>
-                            </td>
-                            <td>
-                                <a (click)="selectToEditPaciente(paciente.id, paciente.nome, paciente.cpf, paciente.telefone)" style="cursor: pointer;">
-                                    <img src="assets/images/icons/pencil.png" style="max-width: 38px;" alt="Editar">
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Deletar</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Tem certeza que deseja deletar o médico selecionado?</p>
+                    <!-- <p>ID: {{ selectToDeleteId }}</p> -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <!-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="deleteMedico()">Deletar</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+ <!-- <mt-sidebar>
+    <div class="container-fluid px-4">
+        <h1 class="mt-4" style="margin-left: 12px;">Pacientes</h1>
+        <ol class="breadcrumb mb-4" style="margin-left: 12px;">
+            <li class="breadcrumb-item active">Gestão de Pacientes</li>
+        </ol>
+        <div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <img src="assets/images/icons/addPeople.png" style="max-width: 17px;" alt="">
+                                Cadastrar
+                            </div>
+                            <div class="container-fluid px-4">
+                                <br>
+                                <p>Novo paciente </p>
+                                <div class="form-floating mb-3">
+                                    <input class="form-control custom-input" placeholder="Nome" name="Nome"
+                                        [(ngModel)]="nomeInput" />
+                                    <label for="inputPassword">Nome</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input class="form-control custom-input" placeholder="CPF" name="Cpf"
+                                        [(ngModel)]="cpfInput" (input)="onChangeCPF()" maxlength="14" />
+                                    <label for="inputCpf">CPF</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input class="form-control custom-input" placeholder="Telefone" name="Telefone"
+                                        [(ngModel)]="telefoneInput" (input)="onChangeTelefone()" maxlength="15" />
+                                    <label for="inputTelefone">Telefone</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input class="form-control custom-input" placeholder="ID do Médico" name="MedicoId"
+                                        [(ngModel)]="medicoIdInput" />
+                                    <label for="inputMedicoId">ID do Médico</label>
+                                </div>
+                                <p>
+                                    <a class="btn btn-primary btn-sm" style="margin-right: 1vh;"
+                                        (click)="registerPaciente()">
+                                        Cadastrar
+                                    </a>
+                                    <span style="color: red;">{{ messageCreate }}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <img src="assets/images/icons/Edit.png" style="max-width: 17px;" alt="">
+                                Editar
+                            </div>
+                            <div class="container-fluid px-4">
+                                <br>
+                                <p>Editar pelo Id: </p>
+                                <div class="form-floating mb-3">
+                                    <input class="form-control custom-input" placeholder="Nome" [(ngModel)]="nomeEdit" />
+                                    <label for="inputPassword">Nome</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input class="form-control custom-input" placeholder="CPF" [(ngModel)]="cpfEdit"
+                                        (input)="onChangeCPF()" maxlength="14" />
+                                    <label for="inputCrm">CPF</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input class="form-control custom-input" placeholder="Telefone"
+                                        [(ngModel)]="telefoneEdit" (input)="onChangeTelefone()" maxlength="15" />
+                                    <label for="inputUfCrm">Telefone</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input class="form-control custom-input" placeholder="Especialidade"
+                                        [(ngModel)]="medicoIdEdit" id="editMedicoDoPaciente" />
+                                    <label for="inputEspecialidade">MedicoId</label>
+                                </div>
+                                <p><a class="btn btn-primary btn-sm" style="margin-right: 1vh;" (click)="updatePaciente()">
+                                        Editar
+                                    </a><span style="color: red;">{{ messageEdit }}</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-4" style="margin-left: 12px; margin-right: 12px;">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    Tabela de pacientes
+                    <div class="container" style="padding-top: 10px;">
+                        <div class="row">
+                            <div class="col-4" style="padding-left: 0px;">
+                                <a class="btn btn-primary btn-sm" style="margin-right: 1vh;"
+                                    (click)="fetchPacientes()">Listar
+                                    pacientes</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Nome</th>
+                                <th scope="col">CPF</th>
+                                <th scope="col">Telefone</th>
+                                <th scope="col">Nome do médico</th>
+                                <th scope="col" colspan="2"> Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let paciente of pacientes">
+                                <th scope="row">{{ paciente.id }}</th>
+                                <td>{{ paciente.nome }}</td>
+                                <td>{{ paciente.cpf }}</td>
+                                <td>{{ paciente.telefone }}</td>
+                                <td>{{ paciente.medico }}</td>
+                                <td>
+                                    <a (click)="deletePaciente(paciente.id)" style="cursor: pointer;">
+                                        <img src="assets/images/icons/trash.png" style="max-width: 38px;" alt="Deletar">
+                                    </a>
+                                </td>
+                                <td>
+                                    <a (click)="selectToEditPaciente(paciente.id, paciente.nome, paciente.cpf, paciente.telefone)"
+                                        style="cursor: pointer;">
+                                        <img src="assets/images/icons/pencil.png" style="max-width: 38px;" alt="Editar">
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</mt-sidebar>  -->

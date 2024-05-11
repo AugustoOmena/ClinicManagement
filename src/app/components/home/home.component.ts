@@ -7,7 +7,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
   isMenuOpen = false;
-  componenteAtivo: string = 'medicos';
 
   constructor() { }
 
@@ -17,7 +16,4 @@ export class HomeComponent implements OnInit {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
-  mostrarComponente(componente: string) {
-    this.componenteAtivo = componente;
-  }
 }

@@ -11236,3 +11236,9 @@ body {
 .uppercase-input {
   text-transform: uppercase;
 }
+
+.estyleMediumIcons {
+  max-width: 16px;
+  margin-right: 3px;
+  padding-bottom: 4px;
+}

@@ -1,32 +1,83 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, inject } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { CreateService } from './services/createmedico.service';
+import { EditService } from './services/editmedico.service';
 
 @Component({
   selector: 'app-medicos',
   templateUrl: './medicos.component.html',
-  styleUrl: './medicos.component.css'
+  styleUrl: './medico.component.css'
 })
 export class MedicosComponent implements OnInit {
 
   title = 'Estudos.Augusto.Front';
   httpClient = inject(HttpClient);
   medicos:any[] = [];
-  selectedMedico: any;
+  selectedMedicoId: any;
   messageEdit: string = '';
-  messageCreate: string = '';
   nomeFilter: string = '';
   ufFilter: string = '';
+  messageCreate: string = '';
+  actionSelected: string = '';
+  selectToDeleteId: string = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+              private fb: FormBuilder,
+              private createService: CreateService,
+              private editService: EditService) {}
 
+  AcaoMedicoForm!: FormGroup
   
   ngOnInit(): void {
+    this.registerMedicoReset();
   }
+
+  registerMedicoReset() {
+    this.AcaoMedicoForm = this.fb.group({
+      name: this.fb.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
+      crm: this.fb.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
+      uf: this.fb.control('', [Validators.required, Validators.maxLength(2), this.ufValidator]),
+      especialidade: this.fb.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
+    });
+  }
+
+  ufValidator(control: AbstractControl): ValidationErrors | null {
+  const validUFs = ['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO'];
+
+  const value = control.value.toUpperCase();
+
+  if (validUFs.indexOf(value) === -1) {
+      return { invalidUF: true };
+  }
+      return null;
+  }
+
+  create() {
+    if (this.AcaoMedicoForm.invalid) {
+      return;
+    }
+  
+    const { name, crm, uf, especialidade } = this.AcaoMedicoForm.value;
+    
+    console.log(this.AcaoMedicoForm.value);
+  
+    this.createService.cadastro(name, crm, uf, especialidade).subscribe(
+      () => {
+        this.messageCreate = 'Médico cadastrado com sucesso';
+        this.clearInputs();
+      },
+      (error) => {
+        this.messageCreate = 'Erro ao cadastrar médico';
+      }
+    );
+  }
+    
   
   fetchMedicos(nome?: string, uf?: string): void {
     let url = 'https://localhost:7021/v1/Medicos';
   
-    // Adiciona os parâmetros opcionais à URL, se forem fornecidos
+    // Busca por filtro
     if (nome || uf) {
       url += '?';
       if (nome) {
@@ -58,16 +109,19 @@ export class MedicosComponent implements OnInit {
     );
   }
   
+  selectToDelete(id: string) {
+    this.selectToDeleteId = id;
+  }
   
 
-  deleteMedico(idMedico: string): void {
+  deleteMedico() {
     const token = localStorage.getItem('accessToken')!;
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
 
-    this.http.delete(`https://localhost:7021/v1/Medicos/${idMedico}`, { headers }).subscribe(
+    this.http.delete(`https://localhost:7021/v1/Medicos/${this.selectToDeleteId}`, { headers }).subscribe(
       (response) => {
         this.fetchMedicos();
       },
@@ -77,128 +131,48 @@ export class MedicosComponent implements OnInit {
     );
   }
 
-  updateMedico(): void {
-    const nome = (document.getElementById('editNome') as HTMLInputElement).value;
-    const crm = (document.getElementById('editCrm') as HTMLInputElement).value;
-    const ufCrm = (document.getElementById('editUfCrm') as HTMLInputElement).value;
-    const especialidade = (document.getElementById('editEspecialidade') as HTMLInputElement).value;
-  
-    if (!this.selectedMedico) {
-      this.messageEdit = 'Nenhum médico selecionado para edição';
-      return;
-    }
 
-    if (!nome || !crm || !ufCrm || !especialidade) {
-      this.messageEdit = 'Todos os campos devem ser preenchidos';
-      return;
-    }
-  
-    if (crm.length > 50) {
-      this.messageEdit = 'CRM deve ter no máximo 50 caracteres';
-      return;
-    }
-  
-    if (nome.length > 255 || especialidade.length > 255) {
-      this.messageEdit = 'Nome e especialidade devem ter no máximo 255 caracteres';
-      return;
-    }
-  
-    const regexUF = /^[A-Za-z]{2}$/;
-    if (!regexUF.test(ufCrm)) {
-      this.messageEdit = 'UF invlálido';
-      return;
-    }
-
-      const payload = {
-      nome: nome,
-      crm: crm,
-      ufCrm: ufCrm,
-      especialidade: especialidade
-    };
-  
-    const token = localStorage.getItem('accessToken')!;
-  
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-  
-    // Envia a requisição PUT
-    this.http.put(`https://localhost:7021/v1/Medicos/${this.selectedMedico}`, payload, { headers }).subscribe(
-      (response) => {
-        this.messageEdit = 'Médico atualizado com sucesso';
-        this.fetchMedicos();
-      },
-      (error) => {
-        this.messageEdit = 'Erro ao atualizar médico';
-      }
-    );
-  }
-
-selectToEditMedico(medicoId: string, medicoCrm: string, medicoNome: string, medicoUfCrm: string, medicoEspecialidade: string) {
-this.selectedMedico = medicoId;
-
-  (document.getElementById('editNome') as HTMLInputElement).value = medicoNome;
-  (document.getElementById('editCrm') as HTMLInputElement).value = medicoCrm;
-  (document.getElementById('editUfCrm') as HTMLInputElement).value = medicoUfCrm;
-  (document.getElementById('editEspecialidade') as HTMLInputElement).value = medicoEspecialidade;
-}
-
-cadastrarMedico(): void {
-  const nome = (document.getElementById('nomeInput') as HTMLInputElement).value.trim();
-  const crm = (document.getElementById('crmInput') as HTMLInputElement).value.trim();
-  const ufCrm = (document.getElementById('ufCrmInput') as HTMLInputElement).value.trim();
-  const especialidade = (document.getElementById('especialidadeInput') as HTMLInputElement).value.trim();
-
-  if (!nome || !crm || !ufCrm || !especialidade) {
-    this.messageCreate = 'Todos os campos devem ser preenchidos';
+updateMedico(): void {
+  if (this.AcaoMedicoForm.invalid) {
     return;
   }
 
-  if (crm.length > 50) {
-    this.messageCreate = 'CRM deve ter no máximo 50 caracteres';
-    return;
-  }
+  const { name, crm, uf, especialidade } = this.AcaoMedicoForm.value;
+  
+  console.log(this.AcaoMedicoForm.value);
 
-  if (nome.length > 255 || especialidade.length > 255) {
-    this.messageCreate = 'Nome e especialidade devem ter no máximo 255 caracteres';
-    return;
-  }
-
-  const regexUF = /^[A-Za-z]{2}$/;
-  if (!regexUF.test(ufCrm)) {
-    this.messageCreate = 'UF invlálido';
-    return;
-  }
-
-  const token = localStorage.getItem('accessToken')!;
-  const headers = new HttpHeaders({
-    'Authorization': `Bearer ${token}`
-  });
-
-  const payload = {
-    nome: nome,
-    crm: crm,
-    ufCrm: ufCrm,
-    especialidade: especialidade
-  };
-
-  this.http.post('https://localhost:7021/v1/Medicos', payload, { headers }).subscribe(
-    (response) => {
-      this.messageCreate = 'Médico cadastrado com sucesso';
+  this.editService.edit(this.selectedMedicoId, name, crm, uf, especialidade).subscribe(
+    () => {
+      this.messageEdit = 'Médico cadastrado com sucesso';
       this.clearInputs();
-      this.fetchMedicos();
     },
     (error) => {
-      this.messageCreate = 'Erro ao cadastrar médico';
+      this.messageEdit = 'Erro ao cadastrar médico';
     }
   );
 }
 
+selectToEditMedico(medicoId: string, medicoCrm: string, medicoNome: string, medicoUfCrm: string, medicoEspecialidade: string) {
+  this.selectedMedicoId = medicoId;
+  this.actionSelected = 'edit';
+  
+  //atualizando os imput com as informações do medico selecionado.
+  this.AcaoMedicoForm = this.fb.group({
+    name: this.fb.control(`${medicoNome}`, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
+    crm: this.fb.control(`${medicoCrm}`, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
+    uf: this.fb.control(`${medicoUfCrm}`, [Validators.required, Validators.maxLength(2), this.ufValidator]),
+    especialidade: this.fb.control(`${medicoEspecialidade}`, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
+  });
+}
 
 clearInputs(): void {
-  (document.getElementById('nomeInput') as HTMLInputElement).value = '';
-  (document.getElementById('crmInput') as HTMLInputElement).value = '';
-  (document.getElementById('ufCrmInput') as HTMLInputElement).value = '';
-  (document.getElementById('especialidadeInput') as HTMLInputElement).value = '';
+  //reiniciando o formulário para usar novamente
+  this.registerMedicoReset();
+  setTimeout(() => this.messageCreate = '', 5000);
+  setTimeout(() => this.messageEdit = '', 5000);
+}
+
+activeCreate() {
+  this.actionSelected = 'create';
 }
 }

@@ -16,17 +16,15 @@ class LoggedInGuard {
                 const tokenPayload = JSON.parse(atob(token.split('.')[1]));
                 const expiresIn = tokenPayload.exp * 1000 - Date.now();
 
-            if (expiresIn > 0) {
-                //const expiresInSec = Math.round(expiresIn / 1000);
-                return true;
-            } else {
+                if (expiresIn > 0) {
+                    //const expiresInSec = Math.round(expiresIn / 1000);
+                    return true;
+                }
                 this.router.navigate(['/login'], { queryParams: { error: 'Erro de permissão' } });
-                return false;
+                    return false;
             }
-            } else {
-                this.router.navigate(['/login'], { queryParams: { error: 'Erro de permissão' } });
-                return false;
-            } 
+            this.router.navigate(['/login'], { queryParams: { error: 'Erro de permissão' } });
+            return false;
         }
 }
 
