@@ -12,6 +12,8 @@ import { MedicosComponent } from './components/medicos/medicos.component';
 import { CreateService } from './components/medicos/services/createmedico.service';
 import { EditService } from './components/medicos/services/editmedico.service';
 import { PacientesComponent } from './components/pacientes/pacientes.component';
+import { CreatePacienteService } from './components/pacientes/services/createpaciente.service';
+import { EditPacienteService } from './components/pacientes/services/editpaciente.service';
 import { LoginComponent } from './security/login/login.component';
 import { LoginService } from './security/login/login.service';
 import { InputComponent } from './shared/input/input.component';
@@ -40,7 +42,9 @@ import { SidebarComponent } from './shared/sidebar/sidebar.component';
   providers: [
     LoginService,
     CreateService,
-    EditService
+    EditService,
+    EditPacienteService,
+    CreatePacienteService
   ],
   bootstrap: [AppComponent]
 })

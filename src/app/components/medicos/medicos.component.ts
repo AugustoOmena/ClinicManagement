@@ -59,9 +59,7 @@ export class MedicosComponent implements OnInit {
     }
   
     const { name, crm, uf, especialidade } = this.AcaoMedicoForm.value;
-    
-    console.log(this.AcaoMedicoForm.value);
-  
+      
     this.createService.cadastro(name, crm, uf, especialidade).subscribe(
       () => {
         this.messageCreate = 'Médico cadastrado com sucesso';
@@ -126,7 +124,6 @@ export class MedicosComponent implements OnInit {
         this.fetchMedicos();
       },
       (error) => {
-        //console.error('Erro ao deletar médico:', error);
       }
     );
   }
@@ -139,8 +136,6 @@ updateMedico(): void {
 
   const { name, crm, uf, especialidade } = this.AcaoMedicoForm.value;
   
-  console.log(this.AcaoMedicoForm.value);
-
   this.editService.edit(this.selectedMedicoId, name, crm, uf, especialidade).subscribe(
     () => {
       this.messageEdit = 'Médico cadastrado com sucesso';

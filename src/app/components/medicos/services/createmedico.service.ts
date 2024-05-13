@@ -9,8 +9,6 @@ export class CreateService {
 
     constructor(private http:HttpClient){}
 
-    
-
     cadastro(name: string, crm: string, uf: string, especialidade: string): Observable<Medico> {
         const token = localStorage.getItem('accessToken')!;
         const headers = new HttpHeaders({
@@ -19,13 +17,12 @@ export class CreateService {
         return this.http.post<Medico>(
             `${environment.apiUrl}/v1/Medicos`,
             { 
-                nome: name, 
-                crm: crm, 
-                ufCrm: uf, 
-                especialidade: especialidade 
+                nome: name,
+                crm: crm,
+                ufCrm: uf,
+                especialidade: especialidade
             },
             { headers }
         );
     }
-
 }

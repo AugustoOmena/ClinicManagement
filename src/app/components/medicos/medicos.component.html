@@ -28,7 +28,7 @@
                                 </a>
                                 <a class="btn btn-primary btn-sm" style="margin-right: 1vh;"
                                     (click)="registerMedicoReset(); activeCreate()" data-bs-toggle="modal"
-                                    data-bs-target="#createMedicoModal">
+                                    data-bs-target="#acaoMedicoModal">
                                     <img class="estyleMediumIcons"
                                         src="assets/images/icons/botao-adicionar.png">Criar
                                 </a>
@@ -71,14 +71,14 @@
                                     <td>
                                         <a (click)="selectToDelete(medico.id)" style="cursor: pointer;">
                                             <img src="assets/images/icons/trash.png" style="max-width: 38px;"
-                                            data-bs-toggle="modal" data-bs-target="#staticBackdrop" alt="Deletar">
+                                            data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" alt="Deletar">
                                         </a>
                                     </td>
                                     <td>
                                         <a style="cursor: pointer;" data-bs-toggle="modal"
                                             data-bs-target="#acaoMedicoModal"
                                             (click)="selectToEditMedico(medico.id, medico.crm, medico.nome, medico.ufCrm, medico.especialidade)"
-                                            data-bs-toggle="modal" data-bs-target="#createMedicoModal">
+                                            data-bs-toggle="modal" data-bs-target="#acaoMedicoModal">
                                             <img src="assets/images/icons/pencil.png" style="max-width: 38px;"
                                                 alt="Editar">
                                         </a>
@@ -100,7 +100,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 @if (actionSelected === 'create'){
-                <h1 class="modal-title fs-5" id="createMedicoModalLabel">
+                <h1 class="modal-title fs-5" id="acaoMedicoModalLabel">
                     <img src="assets/images/icons/addPeople.png" class="estyleMediumIcons" alt="">Cadastrar
                 </h1>
                 }
@@ -175,12 +175,12 @@
     </div>
 </div>
 
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="confirmDeleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Deletar</h1>
+                <h1 class="modal-title fs-5" id="confirmDeleteModalLabel">Deletar</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
