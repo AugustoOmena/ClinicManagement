@@ -21,22 +21,22 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-4" style="padding-left: 0px;">
-                                <a class="btn btn-primary btn-sm" style="margin-right: 1vh;"
+                                <button class="btn btn-primary btn-sm" style="margin-right: 1vh;"
                                     (click)="fetchMedicos(nomeFilter, ufFilter)">
                                     <img class="estyleMediumIcons"
                                         src="assets/images/icons/lista-de-itens.png">Listar
-                                </a>
-                                <a class="btn btn-primary btn-sm" style="margin-right: 1vh;"
+                                </button>
+                                <button class="btn btn-primary btn-sm" style="margin-right: 1vh;"
                                     (click)="registerMedicoReset(); activeCreate()" data-bs-toggle="modal"
                                     data-bs-target="#acaoMedicoModal">
                                     <img class="estyleMediumIcons"
                                         src="assets/images/icons/botao-adicionar.png">Criar
-                                </a>
+                                </button>
                             </div>
                             <div class="col-8">
                                 <div class="input-group input-group-sm mb-3" style="max-width: 400px;">
                                     <span class="input-group-text" id="basic-addon1">UF</span>
-                                    <input type="text" class="form-control" id="ufInput" [(ngModel)]="ufFilter"
+                                    <input type="text" class="form-control" id="ufInput" [(ngModel)]="ufFilter" maxlength="2"
                                         style="margin-right: 1vh; max-width: 45px;" aria-label="UF"
                                         aria-describedby="basic-addon1">
                                     <span class="input-group-text" id="basic-addon1">Nome</span>
@@ -69,19 +69,19 @@
                                     <td>{{ medico.ufCrm }}</td>
                                     <td>{{ medico.especialidade }}</td>
                                     <td>
-                                        <a (click)="selectToDelete(medico.id)" style="cursor: pointer;">
+                                        <button (click)="selectToDelete(medico.id)" class="no-button-style">
                                             <img src="assets/images/icons/trash.png" style="max-width: 38px;"
                                             data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" alt="Deletar">
-                                        </a>
+                                        </button>
                                     </td>
                                     <td>
-                                        <a style="cursor: pointer;" data-bs-toggle="modal"
+                                        <button class="no-button-style" data-bs-toggle="modal"
                                             data-bs-target="#acaoMedicoModal"
-                                            (click)="selectToEditMedico(medico.id, medico.crm, medico.nome, medico.ufCrm, medico.especialidade)"
+                                            (click)="selectToEditMedico(medico)"
                                             data-bs-toggle="modal" data-bs-target="#acaoMedicoModal">
                                             <img src="assets/images/icons/pencil.png" style="max-width: 38px;"
                                                 alt="Editar">
-                                        </a>
+                                        </button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -123,9 +123,9 @@
                     <form [formGroup]="AcaoMedicoForm">
                         <mt-input-container [showTip]="false">
                             <div class="form-floating mb-3">
-                                <input class="form-control custom-input" formControlName="name" maxlength="255"
+                                <input class="form-control custom-input" formControlName="nome" maxlength="255"
                                     placeholder="Nome" name="Nome" id="nomeInput"
-                                    [ngClass]="{'is-invalid': AcaoMedicoForm.get('name')?.invalid && AcaoMedicoForm.get('name')?.touched}" />
+                                    [ngClass]="{'is-invalid': AcaoMedicoForm.get('nome')?.invalid && AcaoMedicoForm.get('nome')?.touched}" />
                                 <label for="inputPassword">Nome</label>
                             </div>
                         </mt-input-container>
@@ -138,11 +138,39 @@
                             </div>
                         </mt-input-container>
                         <mt-input-container [showTip]="false">
-                            <div class="form-floating mb-3">
-                                <input class="form-control custom-input" formControlName="uf" maxlength="2"
-                                    inputmode="uppercase" placeholder="UF" name="uf" id="ufCrmInput"
-                                    [ngClass]="{'is-invalid': AcaoMedicoForm.get('uf')?.invalid && AcaoMedicoForm.get('uf')?.touched}" />
-                                <label for="inputUfCrm">UF</label>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" for="inputGroupSelect01">UF</label>
+                                <select class="form-select" id="inputGroupSelect01" formControlName="ufCrm"
+                                [ngClass]="{'is-invalid': AcaoMedicoForm.get('ufCrm')?.invalid && AcaoMedicoForm.get('ufCrm')?.touched}">
+                                    <option selected>Escolha...</option>
+                                    <option value="AC">AC</option>
+                                    <option value="AL">AL</option>
+                                    <option value="AP">AP</option>
+                                    <option value="AM">AM</option>
+                                    <option value="BA">BA</option>
+                                    <option value="CE">CE</option>
+                                    <option value="DF">DF</option>
+                                    <option value="ES">ES</option>
+                                    <option value="GO">GO</option>
+                                    <option value="MA">MA</option>
+                                    <option value="MT">MT</option>
+                                    <option value="MS">MS</option>
+                                    <option value="MG">MG</option>
+                                    <option value="PA">PA</option>
+                                    <option value="PB">PB</option>
+                                    <option value="PR">PR</option>
+                                    <option value="PE">PE</option>
+                                    <option value="PI">PI</option>
+                                    <option value="RJ">RJ</option>
+                                    <option value="RN">RN</option>
+                                    <option value="RS">RS</option>
+                                    <option value="RO">RO</option>
+                                    <option value="RR">RR</option>
+                                    <option value="SC">SC</option>
+                                    <option value="SP">SP</option>
+                                    <option value="SE">SE</option>
+                                    <option value="TO">TO</option>
+                                </select>
                             </div>
                         </mt-input-container>
                         <mt-input-container [showTip]="false">
@@ -165,7 +193,7 @@
                     {
                     <div>
                         <button class="btn btn-primary btn-sm" style="margin-right: 1vh;"
-                            [disabled]="AcaoMedicoForm.invalid" (click)="updateMedico()">Editar
+                            [disabled]="AcaoMedicoForm.invalid" (click)="editMedico()">Editar
                         </button><span style="color: red;">{{ messageEdit }}</span>
                     </div>
                     }
@@ -186,10 +214,11 @@
             <div class="modal-body">
                 <p>Tem certeza que deseja deletar o médico selecionado?</p>
                 <p>ID: {{ selectToDeleteId }}</p>
+                <p>{{messageDelete}}</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="deleteMedico()">Deletar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-danger" (click)="deleteMedico()">Deletar</button>
             </div>
         </div>
     </div>

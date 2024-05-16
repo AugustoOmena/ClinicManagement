@@ -1,0 +1,111 @@
+<mt-sidebar>
+    <main>
+        <div class="container-fluid px-4">
+            <h1 class="mt-4">Usuarios </h1>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item active">Gestão de Usuarios</li>
+            </ol>
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    Tabela de usuarios
+                    <div class="row">
+                        <div class="col-4">
+                        </div>
+                        <div class="col-8 col-sm-6">
+                        </div>
+                    </div>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-4" style="padding-left: 0px; margin-top: 2vh;">
+                                <button class="btn btn-primary btn-sm" style="margin-right: 1vh;" (click)="fetchUsuarios()">
+                                    <img class="estyleMediumIcons" src="assets/images/icons/lista-de-itens.png">Listar
+                                </button>
+                                <button class="btn btn-primary btn-sm" style="margin-right: 1vh;"
+                                    (click)="registerUsuarioReset()" data-bs-toggle="modal"
+                                    data-bs-target="#createMedicoModal" data-bs-toggle="modal"
+                                    data-bs-target="#acaoPacienteModal">
+                                    <img class="estyleMediumIcons" src="assets/images/icons/botao-adicionar.png">Criar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Perfil</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let usuario of usuarios">
+                                    <th scope="row">{{ usuario.id }}</th>
+                                    <td>{{ usuario.nome }}</td>
+                                    <td>{{ usuario.email }}</td>
+                                    <td>{{ usuario.perfil }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</mt-sidebar>
+
+<div class="modal fade" id="acaoPacienteModal" tabindex="-1" aria-labelledby="createMedicoModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="createMedicoModalLabel">
+                    <img src="assets/images/icons/addPeople.png" class="estyleMediumIcons" alt="">Cadastrar
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid px-4">
+                    <p>Novo usuário </p>
+                    <form [formGroup]="AcaoUsuarioForm">
+                        <mt-input-container [showTip]="false">
+                            <div class="form-floating mb-3">
+                                <input class="form-control custom-input" formControlName="nome" maxlength="255"
+                                    placeholder="Nome" name="Nome" id="nomeInput"
+                                    [ngClass]="{'is-invalid': AcaoUsuarioForm.get('nome')?.invalid && AcaoUsuarioForm.get('nome')?.touched}" />
+                                <label for="inputName">Nome</label>
+                            </div>
+                        </mt-input-container>
+                        <mt-input-container [showTip]="false">
+                            <div class="form-floating mb-3">
+                                <input class="form-control custom-input" formControlName="email" placeholder="Email" name="email" id="emailInput"
+                                    [ngClass]="{'is-invalid': AcaoUsuarioForm.get('email')?.invalid && AcaoUsuarioForm.get('email')?.touched}" />
+                                <label for="inputCpf">Email</label>
+                            </div>
+                        </mt-input-container>
+                        <mt-input-container [showTip]="false">
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" for="inputGroupSelect01">Perfil</label>
+                                <select class="form-select" id="inputGroupSelect01" formControlName="perfil"
+                                [ngClass]="{'is-invalid': AcaoUsuarioForm.get('perfil')?.invalid && AcaoUsuarioForm.get('perfil')?.touched}">
+                                    <option selected>Escolha...</option>
+                                    <option value="Admin">Admin</option>
+                                    <option value="Atendente">Atendente</option>
+                                </select>
+                            </div>
+                        </mt-input-container>
+                    </form>
+                    <div>
+                        <button class="btn btn-primary btn-sm" style="margin-right: 1vh;"
+                            [disabled]="AcaoUsuarioForm.invalid" (click)="create()"> Cadastrar
+                        </button><span style="color: red;">{{ messageCreate }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

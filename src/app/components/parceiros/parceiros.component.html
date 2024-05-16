@@ -1,0 +1,164 @@
+<mt-sidebar>
+    <main>
+        <div class="container-fluid px-4">
+            <h1 class="mt-4">Parceiros</h1>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item active">Gestão de Parceiros</li>
+            </ol>
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    Pesquisar Parceiro
+                    <div class="row">
+                        <div class="col-4">
+                        </div>
+                        <div class="col-8 col-sm-6">
+                        </div>
+                    </div>
+                    <div class="container">
+                        <div class="row">
+                            <div class="container text-center" style="margin-top: 2vh;">
+                                <div class="row">
+                                    <div class="col-6" style="padding-left: 0px;">
+                                        <form [formGroup]="SearchParceiroForm">
+                                            <mt-input-container [showTip]="false">
+                                                <div class="input-group input-group-sm mb-3">
+                                                    <button class="btn btn-primary btn-sm" (click)="fetchParceiro()">
+                                                        <img class="estyleMediumIcons" src="assets/images/icons/lupa.png">
+                                                    </button>
+                                                    <input type="text" class="form-control" placeholder="Pesquisar pelo Id do parceiro" formControlName="id"
+                                                        [ngClass]="{'is-invalid': SearchParceiroForm.get('id')?.invalid && SearchParceiroForm.get('id')?.touched}"
+                                                        aria-describedby="button-addon1">
+                                                </div>
+                                            </mt-input-container>
+                                        </form>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 0px;">
+                                    <button class="btn btn-primary btn-sm" style="margin-right: 1vh;"
+                                        (click)="registerParceiroReset(); selectCreate()" data-bs-toggle="modal"
+                                        data-bs-target="#createMedicoModal" data-bs-toggle="modal"
+                                        data-bs-target="#acaoParceiroModal">
+                                        <img class="estyleMediumIcons" src="assets/images/icons/botao-adicionar.png">Criar
+                                    </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <p style="color: red;">{{messageSearch}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col">apiKey</th>
+                                    <th scope="col" colspan="2"> Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (parceiroFound != undefined){
+                                    <th scope="row">{{ parceiroFound.id }}</th>
+                                    <td>{{ parceiroFound.nome }}</td>
+                                    <td>{{ parceiroFound.apiKey }}</td>
+                                    <td>
+                                        <button (click)="selectToDelete(parceiroFound.id)" class="no-button-style">
+                                            <img src="assets/images/icons/trash.png" style="max-width: 38px;"
+                                                data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" alt="Deletar">
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button class="no-button-style" (click)="selectToEditParceiro(parceiro)"
+                                            data-bs-toggle="modal" data-bs-target="#acaoParceiroModal">
+                                            <img src="assets/images/icons/pencil.png" style="max-width: 38px;" alt="Editar">
+                                        </button>
+                                    </td>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</mt-sidebar>
+
+<div class="modal fade" id="acaoParceiroModal" tabindex="-1" aria-labelledby="createMedicoModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                @if (actionSelected === 'create'){
+                <h1 class="modal-title fs-5" id="createMedicoModalLabel">
+                    <img src="assets/images/icons/addPeople.png" class="estyleMediumIcons" alt="">Cadastrar
+                </h1>
+                }
+                @else if (actionSelected === 'edit')
+                {
+                <h1 class="modal-title fs-5" id="editarMedicoModalLabel">
+                    <img src="assets/images/icons/Edit.png" class="estyleMediumIcons" alt="">Editar
+                </h1>
+                }
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid px-4">
+                    @if (actionSelected === 'create'){
+                    <p>Novo parceiro </p>
+                    } @else if (actionSelected === 'edit')
+                    {
+                    <p>Editar pelo Id: {{ selectedParceiroId }}</p>
+                    }
+                    <form [formGroup]="AcaoParceiroForm">
+                        <mt-input-container [showTip]="false">
+                            <div class="form-floating mb-3">
+                                <input class="form-control custom-input" formControlName="nome" maxlength="255"
+                                    placeholder="Nome" name="Nome" id="nomeInput"
+                                    [ngClass]="{'is-invalid': AcaoParceiroForm.get('nome')?.invalid && AcaoParceiroForm.get('nome')?.touched}" />
+                                <label for="inputName">Nome</label>
+                            </div>
+                        </mt-input-container>
+                    </form>
+                    @if (actionSelected === 'create'){
+                    <div>
+                        <button class="btn btn-primary btn-sm" style="margin-right: 1vh;"
+                            [disabled]="AcaoParceiroForm.invalid" (click)="create()"> Cadastrar
+                        </button><span style="color: red;">{{ messageCreate }}</span>
+                    </div>
+                    }
+                    @else if (actionSelected === 'edit')
+                    {
+                    <div>
+                        <button class="btn btn-primary btn-sm" style="margin-right: 1vh;"
+                            [disabled]="AcaoParceiroForm.invalid" (click)="editParceiro()">Editar
+                        </button><span style="color: red;">{{ messageEdit }}</span>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="confirmDeleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="confirmDeleteModalLabel">Deletar</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Tem certeza que deseja deletar o parceiro selecionado?</p>
+                <p>ID: {{ selectToDeleteId }}</p>
+                <p>{{messageDelete}}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-danger" (click)="deleteParceiro()">Deletar</button>
+            </div>
+        </div>
+    </div>
+</div>

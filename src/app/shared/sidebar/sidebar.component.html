@@ -17,18 +17,26 @@
                 <div class="sb-sidenav-menu">
                     <div class="nav">
                         <div class="sb-sidenav-menu-heading"></div>
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link" href="home">
                             <div class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></div>
-                            Perfil
+                            Tela inicial
                         </a>
                         <div class="sb-sidenav-menu-heading">Gestão</div>
-                        <a class="nav-link" href="medicos">
+                        <a class="nav-link" [routerLink]="['/medicos']">
                             <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                             Médicos
                         </a>
-                        <a class="nav-link" href="pacientes">
+                        <a class="nav-link" [routerLink]="['/pacientes']">
                             <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                             Pacientes
+                        </a>
+                        <a class="nav-link" [routerLink]="['/usuarios']">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            Usuarios
+                        </a>
+                        <a class="nav-link" [routerLink]="['/parceiros']">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            Parceiros
                         </a>
                     </div>
                 </div>
@@ -40,4 +48,5 @@
             </main>
         </div>
     </div>
+</body>
 

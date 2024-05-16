@@ -18,13 +18,13 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-4" style="padding-left: 0px; margin-top: 2vh;">
-                                <a class="btn btn-primary btn-sm" style="margin-right: 1vh;" (click)="fetchPacientes()">
+                                <button class="btn btn-primary btn-sm" style="margin-right: 1vh;" (click)="fetchPacientes()">
                                     <img class="estyleMediumIcons" src="assets/images/icons/lista-de-itens.png">Listar
-                                </a>
-                                <a class="btn btn-primary btn-sm" style="margin-right: 1vh;" (click)="registerPacienteReset(); selectCreate()"
+                                </button>
+                                <button class="btn btn-primary btn-sm" style="margin-right: 1vh;" (click)="registerPacienteReset(); selectCreate()"
                                     data-bs-toggle="modal" data-bs-target="#createMedicoModal" data-bs-toggle="modal" data-bs-target="#acaoPacienteModal">
                                     <img class="estyleMediumIcons" src="assets/images/icons/botao-adicionar.png" >Criar
-                                </a>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -50,16 +50,16 @@
                                     <td>{{ paciente.telefone }}</td>
                                     <td>{{ paciente.medico }}</td>
                                     <td>
-                                        <a (click)="selectToDelete(paciente.id)" style="cursor: pointer;">
+                                        <button (click)="selectToDelete(paciente.id)" class="no-button-style">
                                             <img src="assets/images/icons/trash.png" style="max-width: 38px;"
                                             data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" alt="Deletar">
-                                        </a>
+                                        </button>
                                     </td>
                                     <td>
-                                        <a style="cursor: pointer;" (click)="selectToEditPaciente(paciente.id, paciente.nome, paciente.cpf, paciente.telefone, paciente.medico)"
+                                        <button class="no-button-style" (click)="selectToEditPaciente(paciente)"
                                         data-bs-toggle="modal" data-bs-target="#acaoPacienteModal">
                                             <img src="assets/images/icons/pencil.png" style="max-width: 38px;" alt="Editar">
-                                        </a>
+                                        </button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -92,7 +92,7 @@
                 <div class="modal-body">
                     <div class="container-fluid px-4">
                         @if (actionSelected === 'create'){
-                        <p>Novo médico </p>
+                        <p>Novo paciente </p>
                         } @else if (actionSelected === 'edit')
                         {
                         <p>Editar pelo Id: {{ selectedPacienteId }}</p>
@@ -100,16 +100,16 @@
                         <form [formGroup]="AcaoPacienteForm">
                             <mt-input-container [showTip]="false">
                                 <div class="form-floating mb-3">
-                                    <input class="form-control custom-input" formControlName="name" maxlength="255"
+                                    <input class="form-control custom-input" formControlName="nome" maxlength="255"
                                         placeholder="Nome" name="Nome" id="nomeInput"
-                                        [ngClass]="{'is-invalid': AcaoPacienteForm.get('name')?.invalid && AcaoPacienteForm.get('name')?.touched}" />
+                                        [ngClass]="{'is-invalid': AcaoPacienteForm.get('nome')?.invalid && AcaoPacienteForm.get('nome')?.touched}" />
                                     <label for="inputName">Nome</label>
                                 </div>
                             </mt-input-container>
                             <mt-input-container [showTip]="false">
                                 <div class="form-floating mb-3">
                                     <input class="form-control custom-input" formControlName="cpf" placeholder="Cpf" maxlength="14"
-                                        (input)="formatCPF($event)" name="Cpf" id="cpfInput"
+                                        (input)="formatCPF($event)" name="cpf" id="cpfInput"
                                         [ngClass]="{'is-invalid': AcaoPacienteForm.get('cpf')?.invalid && AcaoPacienteForm.get('cpf')?.touched}" />
                                     <label for="inputCpf">CPF</label>
                                 </div>
@@ -118,14 +118,14 @@
                                 <div class="form-floating mb-3">
                                     <input class="form-control custom-input" formControlName="telefone"
                                         inputmode="uppercase" placeholder="telefone" name="telefone" id="ufCrmInput" maxlength="15"
-                                        [ngClass]="{'is-invalid': AcaoPacienteForm.get('telefone')?.invalid && AcaoPacienteForm.get('telefone')?.touched}" 
+                                        [ngClass]="{'is-invalid': AcaoPacienteForm.get('telefone')?.invalid && AcaoPacienteForm.get('telefone')?.touched}"
                                         (input)="formatTelefone($event)"/>
                                     <label for="inputTelefone">Telefone</label>
                                 </div>
                             </mt-input-container>
                             <mt-input-container [showTip]="false">
                                 <div class="form-floating mb-3">
-                                    <input class="form-control custom-input" formControlName="medicoid" maxlength="36"
+                                    <input class="form-control custom-input" formControlName="medicoId" maxlength="36"
                                         placeholder="Medico" name="medico" id="medicoInput"
                                         [ngClass]="{'is-invalid': AcaoPacienteForm.get('medicoId')?.invalid && AcaoPacienteForm.get('medicoId')?.touched}" />
                                     <label for="inputMedico">Id do Médico</label>
@@ -143,7 +143,7 @@
                         {
                         <div>
                             <button class="btn btn-primary btn-sm" style="margin-right: 1vh;"
-                                [disabled]="AcaoPacienteForm.invalid" (click)="updatePaciente()">Editar
+                                [disabled]="AcaoPacienteForm.invalid" (click)="editPaciente()">Editar
                             </button><span style="color: red;">{{ messageEdit }}</span>
                         </div>
                         }
@@ -164,10 +164,11 @@
                 <div class="modal-body">
                     <p>Tem certeza que deseja deletar o paciente selecionado?</p>
                     <p>ID: {{ selectToDeleteId }}</p>
+                    <p>{{messageDelete}}</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="deletePaciente()">Deletar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-danger" (click)="deletePaciente()">Deletar</button>
                 </div>
             </div>
         </div>
