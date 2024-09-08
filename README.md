@@ -1,18 +1,29 @@
 <div align="center">
-  <h1>Frontend do projeto de Clinica Médica</h1>
+  <h1>Frontend · ClinicManagement</h1>
 </div>
 
-### This is a complete Fronted, which consumes a separate API (Backend) and has 4 complete CRUDS.
+<p align="center">
+  <img src="https://img.shields.io/badge/Angular-17.3.6-red" alt="Angular">
+  <img src="https://img.shields.io/badge/version-1.0.0-blue" alt="Project">
+</p>
 
-#### API Link: https://github.com/AugustoOmena/Backend_Clinica_Medica
+**ClinicManagement** provides an interface for managing clinics. It includes JWT authentication functionality and CRUD operations for entities with listing and filtering capabilities.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.6.
+
+
+#### To access ClinicManagement backend: https://github.com/AugustoOmena/Backend_ClinicManagement
+
+## Features
+
+- **JWT Authentication**: Secure login system using JSON Web Tokens.
+- **CRUD Operations**: Complete create, read, update, and delete operations for entities.
+- **Listing and Filtering**: Features for viewing and filtering lists of entities.
+
+
 <div align="center">
-  <h2>Developed with the aim of studying frontend with Angular</h2>
-</div>
-<div align="center">
-  <img width="400px" src="https://github.com/AugustoOmena/FRONTEND_Clinica_Medica/assets/122471298/c3715d57-ad27-4905-ae02-e67350554c5f">
-</div>
-<div align="center">
-  <img width="400px" src="https://github.com/AugustoOmena/FRONTEND_Clinica_Medica/assets/122471298/e3e54692-ee58-401e-a4dd-ec9229cfb2db">
+
+| Login Screen | Dashboard Screen |
+|:-------------:|:-----------------:|
+| ![Login](https://github.com/AugustoOmena/FRONTEND_Clinica_Medica/assets/122471298/c3715d57-ad27-4905-ae02-e67350554c5f) | ![Dashboard](https://github.com/AugustoOmena/FRONTEND_Clinica_Medica/assets/122471298/e3e54692-ee58-401e-a4dd-ec9229cfb2db) |
+
 </div>
