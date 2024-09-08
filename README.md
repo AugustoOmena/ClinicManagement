@@ -9,8 +9,6 @@
 
 **ClinicManagement** provides an interface for managing clinics. It includes JWT authentication functionality and CRUD operations for entities with listing and filtering capabilities.
 
-
-
 #### To access ClinicManagement backend: https://github.com/AugustoOmena/Backend_ClinicManagement
 
 ## Features
@@ -18,7 +16,6 @@
 - **JWT Authentication**: Secure login system using JSON Web Tokens.
 - **CRUD Operations**: Complete create, read, update, and delete operations for entities.
 - **Listing and Filtering**: Features for viewing and filtering lists of entities.
-
 
 <div align="center">
 
