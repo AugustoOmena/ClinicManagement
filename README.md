@@ -9,7 +9,7 @@
 
 **ClinicManagement** provides an interface for managing clinics. It includes JWT authentication functionality and CRUD operations for entities with listing and filtering capabilities.
 
-#### To access ClinicManagement backend: https://github.com/AugustoOmena/Backend_ClinicManagement
+#### To access ClinicManagement back-end: https://github.com/AugustoOmena/Backend_ClinicManagement
 
 ## Features
 
@@ -18,9 +18,18 @@
 - **Listing and Filtering**: Features for viewing and filtering lists of entities.
 
 <div align="center">
-
+  
 | Login Screen | Dashboard Screen |
 |:-------------:|:-----------------:|
 | ![Login](https://github.com/AugustoOmena/FRONTEND_Clinica_Medica/assets/122471298/c3715d57-ad27-4905-ae02-e67350554c5f) | ![Dashboard](https://github.com/AugustoOmena/FRONTEND_Clinica_Medica/assets/122471298/e3e54692-ee58-401e-a4dd-ec9229cfb2db) |
 
 </div>
+
+## Contact
+
+For inquiries or support, please contact me through the following channels:
+
+- **Email**: augusto.n.omena@gmail.com
+- **LinkedIn**: [august-omena](https://www.linkedin.com/in/augusto-omena/)
+
+
